@@ -4,9 +4,7 @@ import me.mrafonso.hangar4j.impl.Pagination;
 
 import java.util.List;
 
-public class HangarVersions {
-    Pagination pagination;
-    List<HangarVersion> result;
+public record HangarVersions(Pagination pagination, List<HangarVersion> result) {
 
     public Pagination getPagination() {
         return pagination;

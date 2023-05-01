@@ -1,9 +1,6 @@
 package me.mrafonso.hangar4j.impl.version;
 
-public class FileInfo {
-    String name;
-    int sizeBytes;
-    String sha256Hash;
+public record FileInfo(String name, int sizeBytes, String sha256Hash) {
 
     public String getName() {
         return name;

@@ -1,9 +1,6 @@
 package me.mrafonso.hangar4j.impl.project;
 
-public class SubLink {
-    int id;
-    String name;
-    String url;
+public record SubLink(int id, String name, String url) {
 
     public int getId() {
         return id;

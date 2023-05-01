@@ -1,10 +1,6 @@
 package me.mrafonso.hangar4j.impl;
 
-public class Pagination {
-    int limit;
-    int offset;
-    int count;
-
+public record Pagination(int limit, int offset, int count) {
     public int getLimit() {
         return limit;
     }

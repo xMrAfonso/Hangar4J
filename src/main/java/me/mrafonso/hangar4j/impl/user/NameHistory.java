@@ -1,9 +1,6 @@
 package me.mrafonso.hangar4j.impl.user;
 
-public class NameHistory {
-    String oldName;
-    String newName;
-    String date;
+public record NameHistory(String oldName, String newName, String date) {
 
     public String getOldName() {
         return oldName;

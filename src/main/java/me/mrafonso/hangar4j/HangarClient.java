@@ -19,13 +19,25 @@ import java.net.http.HttpResponse;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
-public record HangarClient(String userAgent, String apiKey) {
+public class HangarClient {
     private static final HttpClient client = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
             .build();
     private static final Gson gson = new Gson();
     private static final String API_URL = "https://hangar.papermc.io/api/v1";
-    public static DecodedJWT jwt;
+    private DecodedJWT jwt;
+    private final String userAgent;
+    private final String apiKey;
+
+    public HangarClient(String apiKey, String userAgent) {
+        this.apiKey = apiKey;
+        this.userAgent = userAgent + " (Hangar4J)";
+    }
+
+    public HangarClient(String userAgent) {
+        this.apiKey = null;
+        this.userAgent = userAgent + " (Hangar4J)";
+    }
 
     private boolean isJWTExpired() {
         Date expiresAt = jwt.getExpiresAt();
@@ -33,17 +45,17 @@ public record HangarClient(String userAgent, String apiKey) {
         return expiresAt.before(new Date());
     }
 
-    private CompletableFuture<HttpResponse<String>> sendAPIRequest(String path, RequestType type, boolean useJWT) {
+    private CompletableFuture<HttpResponse<String>> sendAPIRequest(String path, RequestType type) {
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL + path))
                 .header("User-Agent", userAgent);
 
         if (type == RequestType.POST) {
             requestBuilder.POST(HttpRequest.BodyPublishers.noBody());
-        } else if (jwt == null || isJWTExpired()) {
-            updateJWT();
-        }
-        if (useJWT) {
+        } else if (apiKey != null) {
+            if (jwt == null || isJWTExpired()) {
+                updateJWT();
+            }
             requestBuilder.header("Authorization", jwt.getToken());
         }
 
@@ -52,7 +64,7 @@ public record HangarClient(String userAgent, String apiKey) {
     }
 
     public void updateJWT() {
-        sendAPIRequest("/authenticate?apiKey=" + apiKey, RequestType.POST, false)
+        sendAPIRequest("/authenticate?apiKey=" + apiKey, RequestType.POST)
                 .thenApply(response -> {
                     JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
                     return obj.get("token").getAsString();
@@ -62,7 +74,7 @@ public record HangarClient(String userAgent, String apiKey) {
     }
 
     public HangarProject getProject(String author, String slug) {
-        return sendAPIRequest("/projects/" + author + "/" + slug, RequestType.GET, true)
+        return sendAPIRequest("/projects/" + author + "/" + slug, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarProject.class))
                 .join();
     }
@@ -71,7 +83,7 @@ public record HangarClient(String userAgent, String apiKey) {
         if (limit > 25) {
             throw new IllegalArgumentException("Unable to make requests with a limit higher than 25. Currently: " + limit);
         }
-        return sendAPIRequest("/projects?orderWithRelevance=" + orderWithRelevance + "&limit=" + limit + "&offset=" + offset, RequestType.GET, true)
+        return sendAPIRequest("/projects?orderWithRelevance=" + orderWithRelevance + "&limit=" + limit + "&offset=" + offset, RequestType.GET)
                     .thenApply(response -> gson.fromJson(response.body(), HangarProjects.class))
                     .join();
     }
@@ -81,13 +93,13 @@ public record HangarClient(String userAgent, String apiKey) {
     }
 
     public HangarUser getUser(String user) {
-        return sendAPIRequest("/users/" + user, RequestType.GET, true)
+        return sendAPIRequest("/users/" + user, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarUser.class))
                 .join();
     }
 
     public HangarVersion getVersion(String author, String slug, String version) {
-        return sendAPIRequest("/projects/" + author + "/" + slug + "/versions/" + version, RequestType.GET, true)
+        return sendAPIRequest("/projects/" + author + "/" + slug + "/versions/" + version, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarVersion.class))
                 .join();
     }
@@ -98,7 +110,7 @@ public record HangarClient(String userAgent, String apiKey) {
     }
 
     public HangarVersions getVersions(String author, String slug) {
-        return sendAPIRequest("projects/" + author + "/" + slug + "/versions/", RequestType.GET, true)
+        return sendAPIRequest("projects/" + author + "/" + slug + "/versions/", RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarVersions.class))
                 .join();
     }

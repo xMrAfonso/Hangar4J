@@ -1,8 +1,6 @@
 package me.mrafonso.hangar4j.impl.project;
 
-public class Donation {
-    boolean enable;
-    String subject;
+public record Donation(boolean enable, String subject) {
 
     public boolean isEnable() {
         return enable;
