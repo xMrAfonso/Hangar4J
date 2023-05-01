@@ -1,10 +1,19 @@
 package me.mrafonso.hangar4j.impl;
 
-import lombok.Getter;
-
-@Getter
 public class Pagination {
-    private int limit;
-    private int offset;
-    private int count;
+    int limit;
+    int offset;
+    int count;
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public int getCount() {
+        return count;
+    }
 }

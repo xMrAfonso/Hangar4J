@@ -1,15 +1,26 @@
 package me.mrafonso.hangar4j.impl.version;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.List;
 
-@Getter
-@Setter
 public class Channel {
-    private String createdAt;
-    private String name;
-    private String color;
-    private List<String> flags;
+    String createdAt;
+    String name;
+    String color;
+    List<String> flags;
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public List<String> getFlags() {
+        return flags;
+    }
 }

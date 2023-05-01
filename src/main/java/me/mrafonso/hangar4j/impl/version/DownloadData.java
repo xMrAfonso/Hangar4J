@@ -1,12 +1,19 @@
 package me.mrafonso.hangar4j.impl.version;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class DownloadData {
-    private FileInfo fileInfo;
-    private String externalUrl;
-    private String downloadUrl;
+    FileInfo fileInfo;
+    String externalUrl;
+    String downloadUrl;
+
+    public FileInfo getFileInfo() {
+        return fileInfo;
+    }
+
+    public String getExternalUrl() {
+        return externalUrl;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
 }

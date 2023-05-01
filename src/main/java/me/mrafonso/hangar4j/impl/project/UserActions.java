@@ -1,12 +1,19 @@
 package me.mrafonso.hangar4j.impl.project;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class UserActions {
-    private boolean starred;
-    private boolean watching;
-    private boolean flagged;
+    boolean starred;
+    boolean watching;
+    boolean flagged;
+
+    public boolean isStarred() {
+        return starred;
+    }
+
+    public boolean isWatching() {
+        return watching;
+    }
+
+    public boolean isFlagged() {
+        return flagged;
+    }
 }

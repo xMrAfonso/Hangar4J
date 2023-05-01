@@ -1,23 +1,69 @@
 package me.mrafonso.hangar4j.impl.version;
 
-import lombok.Getter;
 import me.mrafonso.hangar4j.impl.Platform;
 
 import java.util.List;
 import java.util.Map;
 
-@Getter
 public class HangarVersion {
-    private String createdAt;
-    private String name;
-    private String visibility;
-    private String description;
-    private Stats stats;
-    private String author;
-    private String reviewState;
-    private Channel channel;
-    private String pinnedStatus;
-    private Map<String, DownloadData> downloads;
-    private Map<Platform, List<String>> platformDependencies;
-    private Map<Platform, String> platformDependenciesFormatted;
+    String createdAt;
+    String name;
+    String visibility;
+    String description;
+    Stats stats;
+    String author;
+    String reviewState;
+    Channel channel;
+    String pinnedStatus;
+    Map<String, DownloadData> downloads;
+    Map<Platform, List<String>> platformDependencies;
+    Map<Platform, String> platformDependenciesFormatted;
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Stats getStats() {
+        return stats;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getReviewState() {
+        return reviewState;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public String getPinnedStatus() {
+        return pinnedStatus;
+    }
+
+    public Map<String, DownloadData> getDownloads() {
+        return downloads;
+    }
+
+    public Map<Platform, List<String>> getPlatformDependencies() {
+        return platformDependencies;
+    }
+
+    public Map<Platform, String> getPlatformDependenciesFormatted() {
+        return platformDependenciesFormatted;
+    }
 }

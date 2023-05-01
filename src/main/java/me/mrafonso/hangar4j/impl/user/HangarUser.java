@@ -1,18 +1,51 @@
 package me.mrafonso.hangar4j.impl.user;
 
-import lombok.Getter;
-
 import java.util.List;
 
-@Getter
 public class HangarUser {
-    private String createdAt;
-    private String name;
-    private String tagline;
-    private List<Integer> roles;
-    private int projectCount;
-    private boolean locked;
-    private List<NameHistory> nameHistory;
-    private String avatarUrl;
-    private boolean isOrganization;
+    String createdAt;
+    String name;
+    String tagline;
+    List<Integer> roles;
+    int projectCount;
+    boolean locked;
+    List<NameHistory> nameHistory;
+    String avatarUrl;
+    boolean isOrganization;
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public List<Integer> getRoles() {
+        return roles;
+    }
+
+    public int getProjectCount() {
+        return projectCount;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public List<NameHistory> getNameHistory() {
+        return nameHistory;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public boolean isOrganization() {
+        return isOrganization;
+    }
 }

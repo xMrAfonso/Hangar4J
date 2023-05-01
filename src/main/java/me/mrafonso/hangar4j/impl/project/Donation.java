@@ -1,6 +1,14 @@
 package me.mrafonso.hangar4j.impl.project;
 
 public class Donation {
-    private boolean enable;
-    private String subject;
+    boolean enable;
+    String subject;
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
 }

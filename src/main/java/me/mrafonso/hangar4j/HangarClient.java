@@ -19,19 +19,13 @@ import java.net.http.HttpResponse;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
-public class HangarClient {
-    private final String userAgent;
+public record HangarClient(String userAgent, String apiKey) {
     private static final HttpClient client = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_1_1)
             .build();
     private static final Gson gson = new Gson();
     private static final String API_URL = "https://hangar.papermc.io/api/v1";
-    public DecodedJWT jwt;
-    private String apiKey;
-    public HangarClient(String apiKey, String userAgent) {
-        this.apiKey = apiKey;
-        this.userAgent = userAgent;
-    }
+    public static DecodedJWT jwt;
 
     private boolean isJWTExpired() {
         Date expiresAt = jwt.getExpiresAt();

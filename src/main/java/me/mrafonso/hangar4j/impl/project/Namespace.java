@@ -1,11 +1,14 @@
 package me.mrafonso.hangar4j.impl.project;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class Namespace {
-    private String owner;
-    private String slug;
+    String owner;
+    String slug;
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
 }

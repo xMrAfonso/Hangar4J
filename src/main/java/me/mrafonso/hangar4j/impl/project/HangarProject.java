@@ -1,18 +1,59 @@
 package me.mrafonso.hangar4j.impl.project;
 
-import lombok.Getter;
-
-@Getter
 public class HangarProject {
-    private String createdAt;
-    private String name;
-    private Namespace namespace;
-    private Stats stats;
-    private String category;
-    private String lastUpdated;
-    private String visibility;
-    private String avatarUrl;
-    private String description;
-    private UserActions userActions;
-    private Settings settings;
+    String createdAt;
+    String name;
+    Namespace namespace;
+    Stats stats;
+    String category;
+    String lastUpdated;
+    String visibility;
+    String avatarUrl;
+    String description;
+    UserActions userActions;
+    Settings settings;
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Namespace getNamespace() {
+        return namespace;
+    }
+
+    public Stats getStats() {
+        return stats;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public UserActions getUserActions() {
+        return userActions;
+    }
+
+    public Settings getSettings() {
+        return settings;
+    }
 }
