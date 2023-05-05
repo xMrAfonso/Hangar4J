@@ -6,11 +6,4 @@ import java.util.List;
 
 public record HangarVersions(Pagination pagination, List<HangarVersion> result) {
 
-    public Pagination getPagination() {
-        return pagination;
-    }
-
-    public List<HangarVersion> getResult() {
-        return result;
-    }
 }
