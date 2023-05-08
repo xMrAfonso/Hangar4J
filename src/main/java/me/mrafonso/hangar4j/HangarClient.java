@@ -207,6 +207,7 @@ public class HangarClient {
         return getUserProjects(user, 1).thenApply(hangarProjects -> hangarProjects.pagination().count());
     }
 
+
     /**
      * Retrieve information about a specific user.
      *
