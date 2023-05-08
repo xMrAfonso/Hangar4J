@@ -11,6 +11,7 @@ import me.mrafonso.hangar4j.impl.project.Namespace;
 import me.mrafonso.hangar4j.impl.user.HangarUser;
 import me.mrafonso.hangar4j.impl.version.HangarVersion;
 import me.mrafonso.hangar4j.impl.version.HangarVersions;
+import org.jetbrains.annotations.Nullable;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -97,7 +98,7 @@ public class HangarClient {
      *
      * @return DecodedJWT object containing information about the JWT token. (CompletableFuture)
      */
-    public CompletableFuture<DecodedJWT> getNewJWT() {
+    public @Nullable CompletableFuture<DecodedJWT> getNewJWT() {
         return sendAPIRequest("/authenticate?apiKey=" + apiKey, RequestType.POST)
                 .thenApply(response -> {
                     JsonObject obj = gson.fromJson(response.body(), JsonObject.class);
@@ -113,7 +114,7 @@ public class HangarClient {
      * @param slug   The slug of the project.
      * @return HangarProject object containing information about the project. (CompletableFuture)
      */
-    public CompletableFuture<HangarProject> getProject(String author, String slug) {
+    public @Nullable CompletableFuture<HangarProject> getProject(String author, String slug) {
         return sendAPIRequest("/projects/" + author + "/" + slug, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarProject.class));
     }
@@ -126,7 +127,7 @@ public class HangarClient {
      * @param offset             The offset to start from.
      * @return HangarProjects object containing a list of projects. (CompletableFuture)
      */
-    public CompletableFuture<HangarProjects> getProjects(boolean orderWithRelevance, int limit, int offset) {
+    public @Nullable CompletableFuture<HangarProjects> getProjects(boolean orderWithRelevance, int limit, int offset) {
         if (limit > 25) {
             throw new IllegalArgumentException("Unable to make requests with a limit higher than 25. Currently: " + limit);
         }
@@ -141,7 +142,7 @@ public class HangarClient {
      * @param offset The offset to start from.
      * @return HangarProjects object containing a list of projects. (CompletableFuture)
      */
-    public CompletableFuture<HangarProjects> getProjects(int limit, int offset) {
+    public @Nullable CompletableFuture<HangarProjects> getProjects(int limit, int offset) {
         return getProjects(false, limit, offset);
     }
 
@@ -151,8 +152,8 @@ public class HangarClient {
      * @param user The user to retrieve the projects of.
      * @return HangarProjects object containing a list of projects. (CompletableFuture)
      */
-    public CompletableFuture<HangarProjects> getProjectsOfUser(String user) {
-        return sendAPIRequest("/projects?orderWithRelevance=false&limit=25&offset=0&owner=" + user, RequestType.GET)
+    public @Nullable CompletableFuture<HangarProjects> getUserProjects(String user, int limit) {
+        return sendAPIRequest("/projects?orderWithRelevance=false&limit=" + limit + "&offset=0&owner=" + user, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarProjects.class));
     }
 
@@ -162,8 +163,48 @@ public class HangarClient {
      * @param user The user to retrieve the projects of.
      * @return HangarProjects object containing a list of projects. (CompletableFuture)
      */
-    public CompletableFuture<HangarProjects> getProjectsOfUser(HangarUser user) {
-        return getProjectsOfUser(user.name());
+    public @Nullable CompletableFuture<HangarProjects> getUserProjects(HangarUser user, int limit) {
+        return getUserProjects(user.name(), limit);
+    }
+
+    /**
+     * Retrieve a list containing projects of a specific user.
+     *
+     * @param user The user to retrieve the projects of.
+     * @return HangarProjects object containing a list of projects. (CompletableFuture)
+     */
+    public @Nullable CompletableFuture<HangarProjects> getUserProjects(String user) {
+        return getUserProjects(user, 25);
+    }
+
+    /**
+     * Retrieve a list containing projects of a specific user.
+     *
+     * @param user The user to retrieve the projects of.
+     * @return HangarProjects object containing a list of projects. (CompletableFuture)
+     */
+    public @Nullable CompletableFuture<HangarProjects> getUserProjects(HangarUser user) {
+        return getUserProjects(user.name(), 25);
+    }
+
+    /**
+     * Retrieve the total amount of projects a specific user has.
+     *
+     * @param user The user to retrieve the amount of projects of.
+     * @return The total amount of projects as an integer. (CompletableFuture)
+     */
+    public @Nullable CompletableFuture<Integer> getUserProjectCount(String user) {
+        return getUserProjects(user, 1).thenApply(hangarProjects -> hangarProjects.pagination().count());
+    }
+
+    /**
+     * Retrieve the total amount of projects a specific user has.
+     *
+     * @param user The user to retrieve the amount of projects of.
+     * @return The total amount of projects as an integer. (CompletableFuture)
+     */
+    public @Nullable CompletableFuture<Integer> getUserProjectCount(HangarUser user) {
+        return getUserProjects(user, 1).thenApply(hangarProjects -> hangarProjects.pagination().count());
     }
 
     /**
@@ -172,7 +213,7 @@ public class HangarClient {
      * @param user The username of the user.
      * @return HangarUser object containing information about the user. (CompletableFuture)
      */
-    public CompletableFuture<HangarUser> getUser(String user) {
+    public @Nullable CompletableFuture<HangarUser> getUser(String user) {
         return sendAPIRequest("/users/" + user, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarUser.class));
     }
@@ -185,7 +226,7 @@ public class HangarClient {
      * @param version The version of the project.
      * @return HangarVersion object containing information about the version. (CompletableFuture)
      */
-    public CompletableFuture<HangarVersion> getVersion(String author, String slug, String version) {
+    public @Nullable CompletableFuture<HangarVersion> getVersion(String author, String slug, String version) {
         return sendAPIRequest("/projects/" + author + "/" + slug + "/versions/" + version, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarVersion.class));
     }
@@ -197,7 +238,7 @@ public class HangarClient {
      * @param version       The version of the project.
      * @return HangarVersion object containing information about the version. (CompletableFuture)
      */
-    public CompletableFuture<HangarVersion> getVersion(HangarProject hangarProject, String version) {
+    public @Nullable CompletableFuture<HangarVersion> getVersion(HangarProject hangarProject, String version) {
         Namespace namespace = hangarProject.namespace();
         return getVersion(namespace.owner(), namespace.slug(), version);
     }
@@ -209,7 +250,7 @@ public class HangarClient {
      * @param slug   The slug of the project.
      * @return HangarVersions object containing a list of versions. (CompletableFuture)
      */
-    public CompletableFuture<HangarVersions> getVersions(String author, String slug) {
+    public @Nullable CompletableFuture<HangarVersions> getVersions(String author, String slug) {
         return sendAPIRequest("projects/" + author + "/" + slug + "/versions/", RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarVersions.class));
     }
@@ -220,7 +261,7 @@ public class HangarClient {
      * @param hangarProject The HangarProject object.
      * @return HangarVersions object containing a list of versions. (CompletableFuture)
      */
-    public CompletableFuture<HangarVersions> getVersions(HangarProject hangarProject) {
+    public @Nullable CompletableFuture<HangarVersions> getVersions(HangarProject hangarProject) {
         Namespace namespace = hangarProject.namespace();
         return getVersions(namespace.owner(), namespace.slug());
     }
@@ -230,7 +271,7 @@ public class HangarClient {
      *
      * @return The total amount of projects as an integer. (CompletableFuture)
      */
-    public CompletableFuture<Integer> getTotalProjects() {
+    public @Nullable CompletableFuture<Integer> getTotalProjectCount() {
         return getProjects(1, 0).thenApply(hangarProjects -> hangarProjects.pagination().count());
     }
 }
