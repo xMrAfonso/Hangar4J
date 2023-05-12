@@ -10,52 +10,41 @@ At the moment, you can retrieve the following information:
 
 *Disclaimer: This wrapper is not affiliated with PaperMC or Hangar in any way.*
 ## How to Use
-Firstly, you should initialize a ```HangarClient``` instance with your API key. You can get an API key from your Hangar profile.
+Initialize a ```HangarClient``` instance with your API key. You can get an [API key here](https://hangar.papermc.io/auth/settings/api-keys).
 If you don't contain an API key, you can still use the wrapper, but you will share api limits with other users using the public API.
 
-The methods below are in the ```HangarClient``` class and will return their respective objects.
+It's also important to note that this wrapper only supports Java 17 or higher.
 
-### Initializing HangarClient
-Using an API key and a custom user agent (recommended):
-```java
-HangarClient HangarClient("API_KEY", "USER_AGENT")
-```
-Without an API key and using public api and sharing its limits with other users (not recommended):
-```java
-HangarClient HangarClient("USER_AGENT")
-```
+### Documentation
+The javadocs with all the information you need can be found [here](https://xmrafonso.github.io/Hangar4J/).
 
-### Projects
-Get a project by its author and slug
+### Basic Example
+This example contains a very simple class responsible for returning the statistics of a project.
+The class will also initialize the ```HangarClient``` instance.
+
 ```java
-Project getProject(String author, String slug)
+// imports
+
+public class HangarExample {
+    private final HangarClient hangarClient;
+
+    // Can be initialized in several ways, this is one of them.
+    public HangarExample() {
+        this.hangarClient = new HangarClient("API_KEY", "USER_AGENT");
+    }
+
+    // Blocking call in this case, up to you to decide if you want to use non-blocking or blocking.
+    public int getProjectDownloads(String author, String slug) {
+        return hangarClient.getHangarProject(author, slug).join().stats().downloads();
+    }
+
+    // You may also use the HangarProject object if you already have it.
+    public int getProjectViews(HangarProject project) {
+        return hangarClient.getHangarProject(project).join().stats().views();
+    }
+}
 ```    
-Get a list of projects
-```java
-Projects getProjects(boolean orderWithRelevance, int limit, int offset)
-Projects getProjects(int limit, int offset)
-```
-Get the total amount of projects
-```java
-int getTotalProjectCount()
-```
 
-### Versions
-Get a list of versions of a project
-```java
-Versions getVersions(String author, String slug)
-Versions getVersions(HangarProject project)
-```
-Get a specific version of a project
-```java
-Version getVersion(String author, String slug, String version)
-Version getVersion(HangarProject project, String version)
-```
-### Users
-Get a user by their username
-```java
-User getUser(String user)
-```
 ## Installation
 
 The latest version can be found in the releases tab on the right.
