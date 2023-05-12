@@ -1,8 +1,4 @@
-![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/xMrAfonso/Hangar4J/gradle-test.yml?branch=main)
-
-[![](https://jitpack.io/v/xMrAfonso/Hangar4J.svg)](https://jitpack.io/#xMrAfonso/Hangar4J?style=for-the-badge)
-
-# Hangar4J
+# Hangar4J ![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/xMrAfonso/Hangar4J/gradle-test.yml?branch=main) [![](https://jitpack.io/v/xMrAfonso/Hangar4J.svg)](https://jitpack.io/#xMrAfonso/Hangar4J?style=for-the-badge)
 
 A Java wrapper to easily access PaperMC's [Hangar API](https://hangar.papermc.io/api-docs).
 This wrapper is still in development, so more features will be added in the future.
