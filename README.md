@@ -1,4 +1,6 @@
-![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/xMrAfonso/Hangar4J/gradle-test.yml?branch=main&style=for-the-badge)
+![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/xMrAfonso/Hangar4J/gradle-test.yml?branch=main)
+
+[![](https://jitpack.io/v/xMrAfonso/Hangar4J.svg)](https://jitpack.io/#xMrAfonso/Hangar4J?style=for-the-badge)
 
 # Hangar4J
 
@@ -50,9 +52,6 @@ public class HangarExample {
 ## Installation
 
 The latest version can be found in the releases tab on the right.
-
-
-[![](https://jitpack.io/v/xMrAfonso/Hangar4J.svg)](https://jitpack.io/#xMrAfonso/Hangar4J)
 
 ### Maven
 ```xml
