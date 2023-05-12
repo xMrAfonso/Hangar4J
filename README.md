@@ -1,4 +1,4 @@
-![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/xMrAfonso/Hangar4J/gradle-test.yml?branch=main)
+![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/xMrAfonso/Hangar4J/gradle-test.yml?branch=main&style=for-the-badge)
 
 # Hangar4J
 
