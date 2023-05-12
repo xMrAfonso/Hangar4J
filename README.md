@@ -49,6 +49,9 @@ public class HangarExample {
 
 The latest version can be found in the releases tab on the right.
 
+
+[![](https://jitpack.io/v/xMrAfonso/Hangar4J.svg)](https://jitpack.io/#xMrAfonso/Hangar4J)
+
 ### Maven
 ```xml
 <repository>
