@@ -1,5 +1,5 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'maven-publish'
 }
 
@@ -20,9 +20,9 @@ publishing {
 
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.10.1'
-    implementation 'com.auth0:java-jwt:4.2.1'
-    implementation 'org.jetbrains:annotations:24.0.1'
+    api 'com.google.code.gson:gson:2.10.1'
+    api 'com.auth0:java-jwt:4.2.1'
+    compileOnlyApi 'org.jetbrains:annotations:24.0.1'
 }
 
 java {
