@@ -1,3 +1,5 @@
+![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/xMrAfonso/Hangar4J/gradle-test.yml?branch=main)
+
 # Hangar4J
 
 A Java wrapper to easily access PaperMC's [Hangar API](https://hangar.papermc.io/api-docs).
