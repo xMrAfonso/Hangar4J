@@ -48,8 +48,18 @@ public class HangarExample {
 ## Installation
 
 The latest version can be found in the releases tab on the right.
+#### Gradle
+```kt
+repositories {
+    maven("https://jitpack.io")
+}
+        
+dependencies {
+    implementation("com.github.xmrafonso:hangar4j:VERSION")
+}
+```
 
-### Maven
+#### Maven
 ```xml
 <repository>
     <id>jitpack.io</id>
@@ -63,17 +73,6 @@ The latest version can be found in the releases tab on the right.
     <version>VERSION</version>
 </dependency>
 ```
-
-#### Gradle
-```kt
-repositories {
-    maven("https://jitpack.io")
-}
-        
-dependencies {
-    implementation("com.github.xmrafonso:hangar4j:VERSION")
-}
-```  
 
 ## Contributing
 

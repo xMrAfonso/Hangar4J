@@ -166,6 +166,19 @@ public class HangarClient {
     }
 
     /**
+     * Search for a project by name.
+     *
+     * @param name   The name of the project.
+     *
+     * @return HangarProject object containing a list of projects. (CompletableFuture)
+     */
+    public @Nullable CompletableFuture<HangarProject> searchProject(String name) {
+        return sendAPIRequest("/projects?orderWithRelevance=true&limit=1&offset=0&q=" + name, RequestType.GET)
+                .thenApply(response -> gson.fromJson(response.body(), HangarProjects.class))
+                .thenApply(projects -> projects.result().get(0));
+    }
+
+    /**
      * Retrieve a list containing projects of a specific user.
      *
      * @param user The user to retrieve the projects of.
@@ -210,29 +223,6 @@ public class HangarClient {
     public @Nullable CompletableFuture<HangarProjects> getUserProjects(HangarUser user) {
         return getUserProjects(user.name(), 25);
     }
-
-    /**
-     * Retrieve the total amount of projects a specific user has.
-     *
-     * @param user The user to retrieve the amount of projects of.
-     *
-     * @return The total amount of projects as an integer. (CompletableFuture)
-     */
-    public @Nullable CompletableFuture<Integer> getUserProjectCount(String user) {
-        return getUserProjects(user, 1).thenApply(hangarProjects -> hangarProjects.pagination().count());
-    }
-
-    /**
-     * Retrieve the total amount of projects a specific user has.
-     *
-     * @param user The user to retrieve the amount of projects of.
-     *
-     * @return The total amount of projects as an integer. (CompletableFuture)
-     */
-    public @Nullable CompletableFuture<Integer> getUserProjectCount(HangarUser user) {
-        return getUserProjects(user, 1).thenApply(hangarProjects -> hangarProjects.pagination().count());
-    }
-
 
     /**
      * Retrieve information about a specific user.
@@ -318,7 +308,7 @@ public class HangarClient {
         if (type == RequestType.POST) {
             requestBuilder.POST(HttpRequest.BodyPublishers.noBody());
         } else if (apiKey != null) {
-            if (jwt == null || isJWTExpired()) {
+            if (autoUpdateJWT && (jwt == null || isJWTExpired())) {
                 DecodedJWT tmpJWT = getNewJWT().join();
                 synchronized(this) {
                     setJWT(tmpJWT);
