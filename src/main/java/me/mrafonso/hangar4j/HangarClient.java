@@ -272,7 +272,7 @@ public class HangarClient {
      * @return HangarVersions object containing a list of versions. (CompletableFuture)
      */
     public @Nullable CompletableFuture<HangarVersions> getVersions(String author, String slug) {
-        return sendAPIRequest("projects/" + author + "/" + slug + "/versions/", RequestType.GET)
+        return sendAPIRequest("/projects/" + author + "/" + slug + "/versions", RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarVersions.class));
     }
 
