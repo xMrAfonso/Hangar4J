@@ -175,7 +175,10 @@ public class HangarClient {
     public @Nullable CompletableFuture<HangarProject> searchProject(String name) {
         return sendAPIRequest("/projects?orderWithRelevance=true&limit=1&offset=0&q=" + name, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarProjects.class))
-                .thenApply(projects -> projects.result().get(0));
+                .thenApply(projects -> {
+                    if (projects.result().size() == 0) return null;
+                    else return projects.result().get(0);
+                });
     }
 
     /**
