@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import me.mrafonso.hangar4j.impl.Platform;
+import me.mrafonso.hangar4j.impl.stargazers.HangarStargazers;
 import me.mrafonso.hangar4j.util.RequestType;
 import me.mrafonso.hangar4j.impl.project.HangarProject;
 import me.mrafonso.hangar4j.impl.project.HangarProjects;
@@ -122,35 +124,34 @@ public class HangarClient {
         this.jwt = jwt;
     }
 
-
     /**
      * Retrieve information about a specific project.
      *
-     * @param author The author of the project.
      * @param slug   The slug of the project.
      *
      * @return HangarProject object containing information about the project. (CompletableFuture)
      */
-    public @Nullable CompletableFuture<HangarProject> getProject(String author, String slug) {
-        return sendAPIRequest("/projects/" + author + "/" + slug, RequestType.GET)
+    public @Nullable CompletableFuture<HangarProject> getProject(String slug) {
+        return sendAPIRequest("/projects/" + slug, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarProject.class));
     }
 
     /**
      * Retrieve a list containing several projects.
      *
-     * @param orderWithRelevance Whether to order the projects with relevance or not.
+     * @throws IllegalArgumentException if the limit is higher than 25.
+     * @param prioritizeExactMatch  Whether to prioritize exact matches to the search or not.
      * @param limit              The maximum amount of projects to return.
      * @param offset             The offset to start from.
      *
      * @return HangarProjects object containing a list of projects. (CompletableFuture)
      */
-    public @Nullable CompletableFuture<HangarProjects> getProjects(boolean orderWithRelevance, int limit, int offset) {
+    public @Nullable CompletableFuture<HangarProjects> getProjects(boolean prioritizeExactMatch, int limit, int offset) {
         if (limit > 25) {
             throw new IllegalArgumentException("Unable to make requests with a limit higher than 25. Currently: " + limit);
         }
-        return sendAPIRequest("/projects?orderWithRelevance=" + orderWithRelevance + "&limit=" + limit + "&offset=" + offset, RequestType.GET)
-                    .thenApply(response -> gson.fromJson(response.body(), HangarProjects.class));
+        return sendAPIRequest("/projects?prioritizeExactMatch=" + prioritizeExactMatch + "&limit=" + limit + "&offset=" + offset, RequestType.GET)
+                .thenApply(response -> gson.fromJson(response.body(), HangarProjects.class));
     }
 
     /**
@@ -170,10 +171,10 @@ public class HangarClient {
      *
      * @param name   The name of the project.
      *
-     * @return HangarProject object containing a list of projects. (CompletableFuture)
+     * @return HangarProject object containing information about the project. (CompletableFuture)
      */
     public @Nullable CompletableFuture<HangarProject> searchProject(String name) {
-        return sendAPIRequest("/projects?orderWithRelevance=true&limit=1&offset=0&q=" + name, RequestType.GET)
+        return sendAPIRequest("/projects?prioritizeExactMatch=true&limit=1&offset=0&q=" + name, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarProjects.class))
                 .thenApply(projects -> {
                     if (projects.result().size() == 0) return null;
@@ -189,7 +190,7 @@ public class HangarClient {
      * @return HangarProjects object containing a list of projects. (CompletableFuture)
      */
     public @Nullable CompletableFuture<HangarProjects> getUserProjects(String user, int limit) {
-        return sendAPIRequest("/projects?orderWithRelevance=false&limit=" + limit + "&offset=0&owner=" + user, RequestType.GET)
+        return sendAPIRequest("/projects?prioritizeExactMatch=false&limit=" + limit + "&offset=0&owner=" + user, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarProjects.class));
     }
 
@@ -242,14 +243,13 @@ public class HangarClient {
     /**
      * Retrieve information about a specific version of a specific project.
      *
-     * @param author  The author of the project.
      * @param slug    The slug of the project.
      * @param version The version of the project.
      *
      * @return HangarVersion object containing information about the version. (CompletableFuture)
      */
-    public @Nullable CompletableFuture<HangarVersion> getVersion(String author, String slug, String version) {
-        return sendAPIRequest("/projects/" + author + "/" + slug + "/versions/" + version, RequestType.GET)
+    public @Nullable CompletableFuture<HangarVersion> getVersion(String slug, String version) {
+        return sendAPIRequest("/projects/" + slug + "/versions/" + version, RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarVersion.class));
     }
 
@@ -263,19 +263,18 @@ public class HangarClient {
      */
     public @Nullable CompletableFuture<HangarVersion> getVersion(HangarProject hangarProject, String version) {
         Namespace namespace = hangarProject.namespace();
-        return getVersion(namespace.owner(), namespace.slug(), version);
+        return getVersion(namespace.slug(), version);
     }
 
     /**
      * Retrieve a list containing several versions of a specific project.
      *
-     * @param author The author of the project.
      * @param slug   The slug of the project.
      *
      * @return HangarVersions object containing a list of versions. (CompletableFuture)
      */
-    public @Nullable CompletableFuture<HangarVersions> getVersions(String author, String slug) {
-        return sendAPIRequest("/projects/" + author + "/" + slug + "/versions", RequestType.GET)
+    public @Nullable CompletableFuture<HangarVersions> getVersions(String slug) {
+        return sendAPIRequest("/projects/" + slug + "/versions", RequestType.GET)
                 .thenApply(response -> gson.fromJson(response.body(), HangarVersions.class));
     }
 
@@ -288,7 +287,7 @@ public class HangarClient {
      */
     public @Nullable CompletableFuture<HangarVersions> getVersions(HangarProject hangarProject) {
         Namespace namespace = hangarProject.namespace();
-        return getVersions(namespace.owner(), namespace.slug());
+        return getVersions(namespace.slug());
     }
 
     /**
@@ -298,6 +297,51 @@ public class HangarClient {
      */
     public @Nullable CompletableFuture<Integer> getTotalProjectCount() {
         return getProjects(1, 0).thenApply(hangarProjects -> hangarProjects.pagination().count());
+    }
+
+    /**
+     * Generates a download url for a specific version of a specific project.
+     *
+     * @param author    The author of the project.
+     * @param slug      The slug of the project.
+     * @param version   The version of the project.
+     * @param platform  The platform to generate the download url for.
+     *
+     * @return String object containing the download url for a specific version of a project.
+     */
+    public String getDownloadUrl(String author, String slug, String version, Platform platform) {
+        return API_URL + "/projects/" + author + "/" + slug + "/versions/" + version + "/" + platform.toString().toLowerCase() + "/download";
+    }
+
+    /**
+     * Generates a download url for a specific version of a specific project.
+     *
+     * @param project   The HangarProject object.
+     * @param version   The version of the project.
+     * @param platform  The platform to generate the download url for.
+     *
+     * @return String object containing the download url for a specific version of a project.
+     */
+    public String getDownloadUrl(HangarProject project, String version, Platform platform) {
+        Namespace namespace = project.namespace();
+        return API_URL + "/projects/" + namespace.owner() + "/" + namespace.slug() + "/versions/" + version + "/" + platform.toString().toLowerCase() + "/download";
+    }
+
+    /**
+     * Retrieve a list containing several stargazers of a specific project.
+     *
+     * @param slug      The slug of the project.
+     * @param limit     The maximum amount of stargazers to return.
+     * @param offset    The offset to start from.
+     *
+     * @return HangarStargazers object containing a list of stargazers. (CompletableFuture)
+     */
+    public @Nullable CompletableFuture<HangarStargazers> getStargazers(String slug, int limit, int offset) {
+        if (limit > 25) {
+            throw new IllegalArgumentException("Unable to make requests with a limit higher than 25. Currently: " + limit);
+        }
+        return sendAPIRequest("/projects/" + slug + "/stargazers?limit=" + limit + "&offset=" + offset, RequestType.GET)
+                .thenApply(response -> gson.fromJson(response.body(), HangarStargazers.class));
     }
 
     /*

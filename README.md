@@ -16,7 +16,7 @@ If you don't contain an API key, you can still use the wrapper, but you will sha
 It's also important to note that this wrapper only supports Java 17 or higher.
 
 ### Documentation
-The javadocs with all the information you need can be found [here](https://javadoc.jitpack.io/com/github/xmrafonso/hangar4j/1.2.1/javadoc/).
+The javadocs with all the information you need can be found [here](https://javadoc.jitpack.io/com/github/xmrafonso/hangar4j/1.2.2/javadoc/).
 
 ### Basic Example
 This example contains a very simple class responsible for returning the statistics of a project.
@@ -34,13 +34,9 @@ public class HangarExample {
     }
 
     // Blocking call in this case, up to you to decide if you want to use non-blocking or blocking.
+    // You may also use the HangarProject object if you already have it in most methods.
     public int getProjectDownloads(String author, String slug) {
-        return hangarClient.getHangarProject(author, slug).join().stats().downloads();
-    }
-
-    // You may also use the HangarProject object if you already have it.
-    public int getProjectViews(HangarProject project) {
-        return hangarClient.getHangarProject(project).join().stats().views();
+        return hangarClient.getProject(author, slug).join().stats().downloads();
     }
 }
 ```    
