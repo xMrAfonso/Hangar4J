@@ -16,7 +16,7 @@ If you don't contain an API key, you can still use the wrapper, but you will sha
 It's also important to note that this wrapper only supports Java 17 or higher.
 
 ### Documentation
-The javadocs with all the information you need can be found [here](https://javadoc.jitpack.io/com/github/xmrafonso/hangar4j/1.2.3/javadoc/).
+The javadocs with all the information you need can be found [here](http://javadoc.jitpack.io/com/github/xmrafonso/hangar4j/63855dea54/javadoc/).
 
 ### Basic Example
 This example contains a very simple class responsible for returning the statistics of a project.
