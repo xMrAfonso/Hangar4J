@@ -1,16 +1,43 @@
 /*
- * Javadoc style sheet
+ * Say hello to BetterJDocs!
+ *
+ * This theme was specifically made to replace the old JavaDocs' Interface with a much
+ * needed improved version of its design & layout while being limited only to CSS.
+ *
+ * Below you can configure the color palette to your liking.
+ * If you like the dark mode and only want to change the primary
+ * colors, I suggest not changing the background colors.
  */
 
-@import url("resources/fonts/dejavu.css");
-
 :root {
-    --custom-color: #4186f5;
+    /* Mostly used on links & buttons */
+    --primary-color: #4186f5;
+    /* Used in fields, parameters, types, etc. */
+    --secondary-color: #ffffff;
+    /* Used specifically for descriptions and text */
+    --description-color: #949494;
+    /* Hover color for links */
+    --hover-color: #76a6f4;
+    /* Color for Top Navigation and Cards */
+    --bg-900-color: #121212;
+    /* Color used in the body's background */
+    --bg-800-color: #171717;
+    /* Mostly used for the odd row in tables */
+    --bg-700-color: #1c1c1c;
+    /* Mostly used for the even row in tables and used for the searchbar */
+    --bg-600-color: #212121;
 }
 
+/*
+ * Javadoc style sheet starts here.
+ * Please be aware that modifying anything below this point may break the theme.
+ * Do it at your own risk!
+ *
+ * PS: This is a modification of the default stylesheet from the regular JavaDocs.
+ */
 body {
-    background-color: #171717;
-    color: #b4b4b4;
+    background-color: var(--bg-800-color);
+    color: var(--description-color);
     font-family: "monospace", Arial, Helvetica, sans-serif;
     font-size: 14px;
     margin: 0;
@@ -29,13 +56,13 @@ iframe {
 a:link,
 a:visited {
     text-decoration: none;
-    color: var(--custom-color);
+    color: var(--primary-color);
 }
 
 a[href]:hover,
 a[href]:focus {
     text-decoration: none;
-    color: white;
+    color: var(--hover-color);
 }
 a[name] {
     color: #353833;
@@ -75,7 +102,7 @@ tt {
     padding-top: 4px;
     margin-top: 8px;
     line-height: 1.4em;
-    color: white;
+    color: var(--secondary-color);
     font-weight: bold;
 }
 dt code {
@@ -122,7 +149,7 @@ button {
 }
 .tab {
     background-color: #0066ff;
-    color: #ffffff;
+    color: var(--secondary-color);
     padding: 8px;
     width: 5em;
     font-weight: bold;
@@ -149,7 +176,7 @@ button {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #949494;
+    background: var(--description-color);
 }
 @media screen {
     .flex-box {
@@ -172,8 +199,8 @@ button {
     margin-block: 0.75rem;
 }
 .top-nav {
-    background-color: #121212;
-    color: #ffffff;
+    background-color: var(--bg-900-color);
+    color: var(--secondary-color);
     float: left;
     padding: 0;
     width: 100%;
@@ -183,7 +210,7 @@ button {
     font-size: 12px;
 }
 .sub-nav {
-    background-color: #171717;
+    background-color: var(--bg-800-color);
     width: 100%;
     align-items: center;
     overflow: hidden;
@@ -211,18 +238,18 @@ ul.sub-nav-list {
     float: left;
     margin: 0.9rem 25px 0 0.85rem;
     padding: 0;
-    color: #949494;
+    color: var(--description-color);
 }
 ul.nav-list li {
     list-style: none;
     float: left;
     padding: 5px 6px;
     text-transform: uppercase;
-    color: #949494;
+    color: var(--description-color);
 }
 
 ul.nav-list li:first-child {
-    color: white;
+    color: var(--secondary-color);
     font-weight: bold;
 }
 .sub-nav .nav-list-search {
@@ -245,19 +272,19 @@ ul.sub-nav-list li {
 .top-nav a:link,
 .top-nav a:active,
 .top-nav a:visited {
-    color: #949494;
+    color: var(--description-color);
     text-decoration: none;
     text-transform: uppercase;
 }
 .top-nav a:hover {
     text-decoration: none;
-    color: #ffffff;
+    color: var(--hover-color);
     text-transform: uppercase;
 }
 .nav-bar-cell1-rev {
-    color: white !important;
+    color: var(--secondary-color) !important;
     margin: auto 5px;
-    background-color: var(--custom-color);
+    background-color: var(--primary-color);
     border-radius: 5px;
 }
 .skip-nav {
@@ -279,14 +306,14 @@ ul.sub-nav-list li {
   * Styles for page header and footer.
   */
 .title {
-    color: white;
+    color: var(--secondary-color);
     margin: 10px 0;
 }
 main > .sub-title {
     margin: 5px 0 0 0;
     font-size: 13px;
-    color: #b4b4b4;
-    background-color: #121212;
+    color: var(--description-color);
+    background-color: var(--bg-900-color);
     border: solid 1px transparent;
     margin-top: 0.5rem;
     padding-left: 0.65rem;
@@ -295,7 +322,7 @@ main > .sub-title {
 }
 
 .sub-title > h2, h3 {
-    color: white;
+    color: var(--secondary-color);
 }
 .header ul {
     margin: 0 0 15px 0;
@@ -315,7 +342,7 @@ body.class-declaration-page .details h2,
 body.class-use-page h2,
 body.module-declaration-page .block-list h2 {
     font-style: italic;
-    color: white;
+    color: var(--secondary-color);
     padding: 0;
 }
 
@@ -326,7 +353,7 @@ body.module-declaration-page .block-list h2 {
 body.class-declaration-page .summary h3,
 body.class-declaration-page .details h3,
 body.class-declaration-page .summary .inherited-list h2 {
-    background-color: #1C1C1C;
+    background-color: var(--bg-700-color);
     border-bottom: solid 1px transparent;
     border-radius: 5px 5px 0 0;
     margin: 0 0 6px -8px;
@@ -346,7 +373,7 @@ main > hr {
 }
 
 .index > dt {
-    color: #949494;
+    color: var(--description-color);
 }
 
 .notes {
@@ -360,7 +387,7 @@ dl.notes > dt {
     font-family: monospace, Arial, Helvetica, sans-serif;
     font-size: 12px;
     font-weight: bold;
-    color: #949494;
+    color: var(--description-color);
 }
 dl.notes > dd {
     margin: 5px 10px 0 0;
@@ -383,7 +410,7 @@ dl.name-value > dd {
   */
 li.circle {
     list-style: circle;
-    color: #949494;
+    color: var(--description-color);
 }
 ul.horizontal li {
     display: inline;
@@ -392,7 +419,7 @@ ul.horizontal li {
 div.inheritance {
     margin: 0;
     padding: 0;
-    color: #b4b4b4;
+    color: var(--description-color);
 }
 div.inheritance div.inheritance {
     margin-left: 2em;
@@ -412,7 +439,7 @@ ul.summary-list > li {
     list-style: none;
     margin-bottom: 15px;
     line-height: 1.4;
-    background-color: #171717;
+    background-color: var(--bg-800-color);
 }
 
 ul.member-list > li:last-child {
@@ -481,7 +508,7 @@ ul.see-list-long li:not(:last-child):after {
 }
 
 .caption {
-    color: #949494;
+    color: var(--description-color);
     font-weight: bold;
     clear: none;
     overflow: hidden;
@@ -496,7 +523,7 @@ ul.see-list-long li:not(:last-child):after {
 }
 .caption a:hover,
 .caption a:active {
-    color: #ffffff;
+    color: var(--hover-color);
 }
 .caption span {
     white-space: nowrap;
@@ -516,24 +543,24 @@ div.table-tabs > button {
     padding: 5px 12px 7px 12px;
 }
 div.table-tabs > button.active-table-tab {
-    background: var(--custom-color);
-    color: white;
+    background: var(--primary-color);
+    color: var(--secondary-color);
     font-weight: bold;
-    border: solid 1px var(--custom-color);
+    border: solid 1px var(--primary-color);
 }
 div.table-tabs > button.table-tab {
     background: transparent;
-    color: var(--custom-color);
-    border-block: solid 1px var(--custom-color);
+    color: var(--primary-color);
+    border-block: solid 1px var(--primary-color);
+    border-left: solid 1px var(--primary-color);
 }
 
 div.table-tabs > button:first-child {
-    border-inline: solid 1px var(--custom-color);
     border-radius: 5px 0 0 5px;
 }
 
 div.table-tabs > button:last-child {
-    border-inline: solid 1px var(--custom-color);
+    border-inline: solid 1px var(--primary-color);
     border-radius: 0 5px 5px 0;
 }
 .two-column-summary {
@@ -668,13 +695,13 @@ div.table-tabs > button:last-child {
 }
 .even-row-color,
 .even-row-color .table-header {
-    background-color: #212121;
+    background-color: var(--bg-600-color);
     color: grey;
 }
 
 .odd-row-color,
 .odd-row-color .table-header {
-    background-color: #1C1C1C;
+    background-color: var(--bg-700-color);
     color: grey;
 }
 /*
@@ -698,18 +725,18 @@ a.external-link:hover::after {
     background-image: url('data:image/svg+xml; utf8, \
               <svg xmlns="http://www.w3.org/2000/svg" width="768" height="768">\
                 <path d="M584 664H104V184h216V80H0v688h688V448H584zM384 0l132 \
-                132-240 240 120 120 240-240 132 132V0z" fill="%23ffffff"/>\
+                132-240 240 120 120 240-240 132 132V0z" fill="%23949494"/>\
               </svg>') !important;
 }
 .external-link {
-    color: var(--custom-color);
+    color: var(--primary-color);
 }
 .type-signature {
     font-size: 15px;
 }
 .class-description .type-signature {
     margin-top: 0.1rem;
-    background-color: #212121;
+    background-color: var(--bg-600-color);
     padding: 0.5rem;
     border: solid 1px transparent;
     border-radius: 5px;
@@ -720,7 +747,7 @@ a.external-link:hover::after {
 .type-signature,
 .member-signature {
     font-family: monospace;
-    color: white;
+    color: var(--secondary-color);
     font-size: 13px;
     margin: 14px 0;
     white-space: pre-wrap;
@@ -755,18 +782,18 @@ h1.hidden {
 .block {
     display: block;
     margin: 0 10px 0 0;
-    color: #b4b4b4;
+    color: var(--description-color);
 }
 
 .class-description > .block {
     margin-bottom: 5px;
 }
 .hierarchy > h2 {
-    color: white;
+    color: var(--secondary-color);
 }
 
 .block > a {
-    color: var(--custom-color);
+    color: var(--primary-color);
 }
 .deprecated-label,
 .descfrm-type-label,
@@ -782,14 +809,14 @@ h1.hidden {
 .search-tag-link,
 .preview-label {
     font-weight: bold;
-    color: #949494;
+    color: var(--description-color);
 }
 .package-label-in-type {
-    color:#949494
+    color:var(--description-color)
 }
 
 .type-name-label {
-    color: #949494;
+    color: var(--description-color);
     font-weight: bold;
     text-decoration: underline;
 }
@@ -798,7 +825,7 @@ h1.hidden {
 .help-footnote,
 .preview-comment {
     font-style: italic;
-    color: #949494;
+    color: var(--description-color);
 }
 .deprecation-block {
     font-size: 14px;
@@ -842,8 +869,8 @@ section {
     font-weight: bold;
     font-size: 15px;
     padding: 7px 0 7px 10px;
-    background-color: #1c1c1c;
-    color: white;
+    background-color: var(--bg-700-color);
+    color: var(--secondary-color);
     border-block: solid 1px transparent;
 }
 
@@ -863,7 +890,7 @@ section {
 ul.ui-autocomplete {
     position: fixed;
     z-index: 999999;
-    background-color: #212121;
+    background-color: var(--bg-600-color);
 }
 ul.ui-autocomplete li {
     float: left;
@@ -872,26 +899,26 @@ ul.ui-autocomplete li {
 }
 .ui-autocomplete .result-item {
     font-size: inherit;
-    color: var(--custom-color);
+    color: var(--primary-color);
 }
 
 .ui-autocomplete .result-item:hover {
-    color: white;
+    color: var(--hover-color);
 }
 .ui-autocomplete .result-highlight {
     font-weight: bold;
-    color: white;
+    color: var(--secondary-color);
 }
 #search-input {
-    background-image: url("resources/search-icon.png");
+    background-image: url("https://imgur.com/CGJ4obZ");
     background-size: 13px;
     background-repeat: no-repeat;
     background-position: 8px 9px;
-    background-color: #3D3D3D;
-    border: solid 1px #474747;
+    background-color: var(--bg-600-color);
+    border: solid 1px var(--bg-600-color);
     border-radius: 5px;
     height: 1.85rem;
-    color: #949494;
+    color: var(--description-color);
     padding-left: 25px;
     margin-left: 20px;
     width: 600px;
@@ -900,7 +927,7 @@ ul.ui-autocomplete li {
 }
 
 #reset-button {
-    background-color: #3D3D3D;
+    background-color: transparent;
     background-image: url("resources/x.png");
     background-position: center;
     background-repeat: no-repeat;
@@ -914,7 +941,7 @@ ul.ui-autocomplete li {
     font-size: 0px;
 }
 .watermark {
-    color: #949494;
+    color: var(--description-color);
 }
 .search-tag-desc-result {
     font-style: italic;
@@ -941,7 +968,7 @@ ul.ui-autocomplete li {
 }
 
 section.class-description {
-    background-color: #121212;
+    background-color: var(--bg-900-color);
     border: solid 1px transparent;
     border-radius: 5px;
     padding: 0.65rem 0 0 0.5rem;
@@ -957,13 +984,13 @@ section.class-description > hr {
     padding: 0px 10px 0.7rem 10px;
     border: solid 1px transparent;
     margin-top: 1rem;
-    background-color: #121212;
+    background-color: var(--bg-900-color);
     border-radius: 5px;
 }
 .inherited-list,
 section[class$="-details"] .detail {
     padding: 0 0 5px 8px;
-    background-color: #212121;
+    background-color: var(--bg-600-color);
     border: solid 1px transparent;
     border-radius: 5px;
 }
@@ -995,7 +1022,7 @@ main a[href*="://"]::after
     background-image: url('data:image/svg+xml; utf8, \
        <svg xmlns="http://www.w3.org/2000/svg" width="768" height="768">\
          <path d="M584 664H104V184h216V80H0v688h688V448H584zM384 0l132 \
-         132-240 240 120 120 240-240 132 132V0z" fill="%234a6782"/>\
+         132-240 240 120 120 240-240 132 132V0z" fill="%233D3D3D"/>\
        </svg>');
     background-size: 100% 100%;
     width: 7px;
@@ -1009,7 +1036,7 @@ main a[href*="://"]:focus::after
     background-image: url('data:image/svg+xml; utf8, \
        <svg xmlns="http://www.w3.org/2000/svg" width="768" height="768">\
          <path d="M584 664H104V184h216V80H0v688h688V448H584zM384 0l132 \
-         132-240 240 120 120 240-240 132 132V0z" fill="%23bb7a2a"/>\
+         132-240 240 120 120 240-240 132 132V0z" fill="%233D3D3D"/>\
        </svg>');
 }
 

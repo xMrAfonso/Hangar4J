@@ -35,7 +35,7 @@ java {
 
 javadoc {
     source = sourceSets.main.allJava
-    options.stylesheetFile = file('docs-style.css')
+    options.stylesheetFile = file('betterjdocs.css')
 }
 
 tasks.named('test') {
